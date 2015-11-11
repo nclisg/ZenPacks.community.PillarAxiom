@@ -1,1 +1,141 @@
 name: ZenPacks.community.PillarAxiom
+
+classes:
+  DEFAULTS:
+    base: [zenpacklib.Component]
+
+  PillarAxiomDevice:
+    base: [zenpacklib.Device]
+    label: Axiom
+    properties:
+       totalcapacity:
+         label: Total Capacitiy
+       usedcapacity:
+         label: Used Capacity
+       freecapacity:
+         label:  Free Capacity
+
+  AxiomPilot:
+    label: Pilot
+    order: 10
+    properties:
+      pilotmode:
+        label: Mode
+        order: 1
+      pilotserial:
+        label: Serial
+        label_width: 120
+        order: 3
+      pilotosversion:
+        label: OS Version
+        label_width: 140
+        order: 4
+      pilotserverversion:
+        label: HW Version
+        label_width: 140
+        order: 5
+      pilotstatus:
+        label: Status
+        order: 2
+
+  AxiomBrick:
+    label: Brick
+    order: 20
+    properties:
+      brickserial:
+        label: Serial
+      brickstatus:
+        label: Status
+      brickfrustatus:
+        label:  FRU Status
+      bricktempstatus:
+        label: Temp Status
+
+  AxiomDisk:
+    label: Disk
+    order: 30
+    properties:
+      diskstatus:
+        label: Status
+      diskmodel:
+        label: Model
+      diskserial:
+        label: Serial
+      diskfirmware:
+        label: Firmware
+      diskslot:
+        label: Slot
+      diskspare:
+        label: Spare
+      diskcapacity:
+        label: Capacity
+
+  AxiomLun:
+    label: LUN
+    order: 50
+    properties: 
+      lunsize:
+        label: Size
+      lunid:
+        label: ID
+      lunvolgroup:
+        label: Volume Group
+      lundomain:
+        label: Domain
+      lunprofile:
+        label: Profile
+      lunredundancy:
+        label: Redundancy
+      lunpriority:
+        label: Priority
+      lunstatus:
+        label: Status
+
+  AxiomVolumeGroup:
+    label: Volume Group
+    order: 40
+    properties:
+      vgallocatedcapacity:
+        label: Allocated Capacity
+        label_width: 120
+      vgusedcapacity:
+        label: Used Capacity
+        label_width: 120
+      vgphysicalallocatedcapacity:
+        label: Physical Allocated Capacity
+        label_width: 120
+      vgphysicalusedcapacity:
+        label: Physical Used Capacity
+        label_width: 120
+
+  AxiomFCPort:
+    label: FC Port
+    order: 60
+    properties:
+      fcportslammer:
+        label:  Slammer
+      fcportcontrolunitnumber:
+        label: Control Unit
+      fcportstatus:
+        label: Status
+      fcportspeed:
+        label: Speed
+      fcportwwn:
+        label: WWN
+
+device_classes:
+  /Storage/Pillar:
+    zProperties:
+      zPythonClass: ZenPacks.community.PillarAxiom.PillarAxiomDevice
+      zCollectorPlugins:
+        - zenoss.snmp.NewDeviceMap
+        - zenoss.snmp.DeviceMap
+        - community.snmp.PillarAxiomMap
+
+class_relationships:
+ - PillarAxiomDevice 1:MC AxiomPilot
+ - PillarAxiomDevice 1:MC AxiomBrick
+ - PillarAxiomDevice 1:MC AxiomLun
+ - PillarAxiomDevice 1:MC AxiomVolumeGroup
+ - PillarAxiomDevice 1:MC AxiomFCPort
+ - AxiomBrick 1:MC AxiomDisk 
