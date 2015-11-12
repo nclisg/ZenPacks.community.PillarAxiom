@@ -99,11 +99,11 @@ class PillarAxiomMap(SnmpPlugin):
         maps = []
         pilotmap = []
         brickmap = []
-        lunmap = []
         volumegroupmap = []
         fcportmap = []
 
 	bricknames = []
+        volumegroupnames = []      
 
         getdata, tabledata = results
 
@@ -213,8 +213,9 @@ class PillarAxiomMap(SnmpPlugin):
         for snmpindex, row in volumegrouptable.items():
             name = row.get('cVolumeGroupDetailsVolumeGroupName')
             if not name:
-                name = "none"
+                name = "root"
  
+            volumegroupnames.append(name)
             volumegroupmap.append(ObjectMap({
                 'id': self.prepId(name),
                 'title': name,
@@ -225,6 +226,8 @@ class PillarAxiomMap(SnmpPlugin):
                 'vgphysicalusedcapacity': "{:,}".format(row.get('cVolumeGroupDetailsPhysicalUsedCapacity')),
                 }))
 
+        volumegroupnames.append('None')
+
         maps.append(RelationshipMap(
             relname = 'axiomVolumeGroups',
             modname = 'ZenPacks.community.PillarAxiom.AxiomVolumeGroup',
@@ -233,34 +236,37 @@ class PillarAxiomMap(SnmpPlugin):
 
         # LUN Component
 
-        for snmpindex, row in luntable.items():
-            name = row.get('cLunInformationName')
-            if not name:
-                log.warn('Skipping lun with no name')
-                continue
+        for volumegroup in volumegroupnames: 
+            lunmap = []
+            for snmpindex, row in luntable.items():
+                name = row.get('cLunInformationName')
+                if not name:
+                    log.warn('Skipping lun with no name')
+                    continue
             
-            lunvolumegroup = row.get('cLunInformationVolumeGroupIdentityFqn')[1:]
-            if not lunvolumegroup:
-                lunvolumegroup = 'None'
+                lunvolumegroup = row.get('cLunInformationVolumeGroupIdentityFqn')[1:]
+                if not lunvolumegroup:
+                    lunvolumegroup = 'root'
 
-            lunmap.append(ObjectMap({
-                'id': self.prepId(name),
-                'title': name,
-                'snmpindex': snmpindex.strip('.'),
-                'lunsize': "{:,}".format(row.get('cLunInformationPhysicalAllocatedCapacity')),
-                'lunid': row.get('cLunInformationLuid'),
-                'lunvolgroup': lunvolumegroup,
-                'lundomain': row.get('cLunInformationStorageDomainIdentityFqn')[1:],
-                'lunprofile': row.get('cLunInformationProfileIdentityFqn')[1:],
-                'lunredundancy': row.get('cLunInformationQosInformationRedundancy'),
-                'lunpriority': row.get('cLunInformationQosInformationPerformanceBand'),
-                'lunstatus': row.get('cLunInformationStatus'),
-                }))
+                if volumegroup == lunvolumegroup:
+                    lunmap.append(ObjectMap({
+                        'id': self.prepId(name),
+                        'title': name,
+                        'snmpindex': snmpindex.strip('.'),
+                        'lunsize': "{:,}".format(row.get('cLunInformationPhysicalAllocatedCapacity')),
+                        'lunid': row.get('cLunInformationLuid'),
+                        'lundomain': row.get('cLunInformationStorageDomainIdentityFqn')[1:],
+                        'lunprofile': row.get('cLunInformationProfileIdentityFqn')[1:],
+                        'lunredundancy': row.get('cLunInformationQosInformationRedundancy'),
+                        'lunpriority': row.get('cLunInformationQosInformationPerformanceBand'),
+                        'lunstatus': row.get('cLunInformationStatus'),
+                    }))
 
-        maps.append(RelationshipMap(
-            relname = 'axiomLuns',
-            modname = 'ZenPacks.community.PillarAxiom.AxiomLun',
-            objmaps = lunmap))
+            maps.append(RelationshipMap(
+                compname = 'axiomVolumeGroups/%s' % volumegroup,
+                relname = 'axiomLuns',
+                modname = 'ZenPacks.community.PillarAxiom.AxiomLun',
+                objmaps = lunmap))
 
         # FC Port Component
 

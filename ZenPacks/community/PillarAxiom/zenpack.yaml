@@ -85,6 +85,7 @@ classes:
   AxiomLun:
     label: LUN
     order: 50
+    monitoring_templates: [AxiomLUN]
     properties: 
       lunsize:
         label: Size (GB)
@@ -137,6 +138,7 @@ classes:
   AxiomFCPort:
     label: FC Port
     order: 60
+    monitoring_templates: [AxiomFCPort]
     properties:
       fcportslammer:
         label:  Slammer
@@ -150,19 +152,187 @@ classes:
         label: WWN
         label_width: 120
 
+class_relationships:
+ - PillarAxiomDevice 1:MC AxiomPilot
+ - PillarAxiomDevice 1:MC AxiomBrick
+ - AxiomVolumeGroup 1:MC AxiomLun
+ - PillarAxiomDevice 1:MC AxiomVolumeGroup
+ - PillarAxiomDevice 1:MC AxiomFCPort
+ - AxiomBrick 1:MC AxiomDisk 
+
 device_classes:
   /Storage/Pillar:
     zProperties:
       zPythonClass: ZenPacks.community.PillarAxiom.PillarAxiomDevice
+      zLinks: '<href="https://${here/id}" target="_">Axiom Web Interface</a>'
       zCollectorPlugins:
         - zenoss.snmp.NewDeviceMap
         - zenoss.snmp.DeviceMap
         - community.snmp.PillarAxiomMap
+      zDeviceTemplates:
+        - Device
+ 
+    templates:
+      AxiomFCPort:
+        description:
+        targetPythonClass: Products.ZenModel.Device
+        datasources:
+          pSanFcPortStatisticsV2ValuesAverageReadOperationSizeInBytes:
+            type: SNMP
+            oid: 1.3.6.1.4.1.15548.2.3.9.2.1.10
+            datapoints:
+              pSanFcPortStatisticsV2ValuesAverageReadOperationSizeInBytes: {}
+          pSanFcPortStatisticsV2ValuesAverageWriteOperationSizeInBytes:
+            type: SNMP
+            oid: 1.3.6.1.4.1.15548.2.3.9.2.1.11
+            datapoints:
+              pSanFcPortStatisticsV2ValuesAverageWriteOperationSizeInBytes: {}
+          pSanFcPortStatisticsV2ValuesAverageReadResponseTimeInMilliseconds:
+            type: SNMP
+            oid: 1.3.6.1.4.1.15548.2.3.9.2.1.12
+            datapoints:
+              pSanFcPortStatisticsV2ValuesAverageReadResponseTimeInMilliseconds: {}
+          pSanFcPortStatisticsV2ValuesAverageWriteResponseTimeInMilliseconds:
+            type: SNMP
+            oid: 1.3.6.1.4.1.15548.2.3.9.2.1.13
+            datapoints:
+              pSanFcPortStatisticsV2ValuesAverageWriteResponseTimeInMilliseconds: {}
+          pSanFcPortStatisticsV2ValuesReadBytesPerSecond:
+            type: SNMP
+            oid: 1.3.6.1.4.1.15548.2.3.9.2.1.2
+            datapoints:
+              pSanFcPortStatisticsV2ValuesReadBytesPerSecond: {}
+          pSanFcPortStatisticsV2ValuesWriteBytesPerSecond:
+            type: SNMP
+            oid: 1.3.6.1.4.1.15548.2.3.9.2.1.3
+            datapoints:
+              pSanFcPortStatisticsV2ValuesWriteBytesPerSecond: {}
+          pSanFcPortStatisticsV2ValuesReadThroughputInIOPerSecond:
+            type: SNMP
+            oid: 1.3.6.1.4.1.15548.2.3.9.2.1.4
+            datapoints:
+              pSanFcPortStatisticsV2ValuesReadThroughputInIOPerSecond: {}
+          pSanFcPortStatisticsV2ValuesWriteThroughputInIOPerSecond:
+            type: SNMP
+            oid: 1.3.6.1.4.1.15548.2.3.9.2.1.5
+            datapoints:
+              pSanFcPortStatisticsV2ValuesWriteThroughputInIOPerSecond: {}
+        graphs:
+          Average Latency:
+            units: Milliseconds
+            graphpoints:
+              pSanFcPortStatisticsV2ValuesAverageReadResponseTimeInMilliseconds:
+                dpName: pSanFcPortStatisticsV2ValuesAverageReadResponseTimeInMilliseconds_pSanFcPortStatisticsV2ValuesAverageReadResponseTimeInMilliseconds 
+                legend: Read
+              pSanFcPortStatisticsV2ValuesAverageWriteResponseTimeInMilliseconds:
+                dpName: pSanFcPortStatisticsV2ValuesAverageWriteResponseTimeInMilliseconds_pSanFcPortStatisticsV2ValuesAverageWriteResponseTimeInMilliseconds
+                legend: Write
+          Average Operation Size:
+            units: Bytes
+            graphpoints: 
+              pSanFcPortStatisticsV2ValuesAverageReadOperationSizeInBytes: 
+                dpName: pSanFcPortStatisticsV2ValuesAverageReadOperationSizeInBytes_pSanFcPortStatisticsV2ValuesAverageReadOperationSizeInBytes 
+                legend: Read 
+              pSanFcPortStatisticsV2ValuesAverageWriteOperationSizeInBytes: 
+                dpName: pSanFcPortStatisticsV2ValuesAverageWriteOperationSizeInBytes_pSanFcPortStatisticsV2ValuesAverageWriteOperationSizeInBytes 
+                legend: Write
+          Throughput: 
+            units: bps 
+            graphpoints: 
+              pSanFcPortStatisticsV2ValuesReadBytesPerSecond: 
+                dpName: pSanFcPortStatisticsV2ValuesReadBytesPerSecond_pSanFcPortStatisticsV2ValuesReadBytesPerSecond 
+                legend: Read 
+              pSanFcPortStatisticsV2ValuesWriteBytesPerSecond: 
+                dpName: pSanFcPortStatisticsV2ValuesWriteBytesPerSecond_pSanFcPortStatisticsV2ValuesWriteBytesPerSecond 
+                legend: Write 
+          Operations: 
+            units: IOPS 
+            graphpoints: 
+              pSanFcPortStatisticsV2ValuesReadThroughputInIOPerSecond: 
+               dpName: pSanFcPortStatisticsV2ValuesReadThroughputInIOPerSecond_pSanFcPortStatisticsV2ValuesReadThroughputInIOPerSecond 
+               legend: Read 
+              pSanFcPortStatisticsV2ValuesWriteThroughputInIOPerSecond: 
+               dpName: pSanFcPortStatisticsV2ValuesWriteThroughputInIOPerSecond_pSanFcPortStatisticsV2ValuesWriteThroughputInIOPerSecond 
+               legend: Write 
+      AxiomLUN:
+        description:
+        targetPythonClass: Products.ZenModel.Device
+        datasources:
+          pLunStatisticsV2ValuesAverageReadOperationSizeInBytes:
+            type: SNMP
+            oid: 1.3.6.1.4.1.15548.2.3.8.2.1.16
+            datapoints: 
+              pLunStatisticsV2ValuesAverageReadOperationSizeInBytes: {}
+          pLunStatisticsV2ValuesAverageWriteOperationSizeInBytes:
+            type: SNMP
+            oid: 1.3.6.1.4.1.15548.2.3.8.2.1.17
+            datapoints: 
+              pLunStatisticsV2ValuesAverageWriteOperationSizeInBytes: {}
+          pLunStatisticsV2ValuesAverageReadResponsTimeInMiliseconds:        
+            type: SNMP
+            oid: 1.3.6.1.4.1.15548.2.3.8.2.1.18
+            datapoints: 
+              pLunStatisticsV2ValuesAverageReadResponsTimeInMiliseconds: {}
+          pLunStatisticsV2ValuesAverageWriteResponsTimeInMiliseconds:
+            type: SNMP
+            oid: 1.3.6.1.4.1.15548.2.3.8.2.1.19
+            datapoints: 
+              pLunStatisticsV2ValuesAverageWriteResponsTimeInMiliseconds: {}
+          pLunStatisticsV2ValuesReadBytesPerSecond:
+            type: SNMP
+            oid: 1.3.6.1.4.1.15548.2.3.8.2.1.5
+            datapoints: 
+              pLunStatisticsV2ValuesReadBytesPerSecond: {}
+          pLunStatisticsV2ValuesWriteBytesPerSecond:
+            type: SNMP
+            oid: 1.3.6.1.4.1.15548.2.3.8.2.1.6
+            datapoints: 
+              pLunStatisticsV2ValuesWriteBytesPerSecond: {}
+          pLunStatisticsV2ValuesReadOperationsPerSecond:
+            type: SNMP
+            oid: 1.3.6.1.4.1.15548.2.3.8.2.1.2
+            datapoints: 
+              pLunStatisticsV2ValuesReadOperationsPerSecond: {}
+          pLunStatisticsV2ValuesWriteOperationsPerSecond:
+            type: SNMP
+            oid: 1.3.6.1.4.1.15548.2.3.8.2.1.3
+            datapoints: 
+              pLunStatisticsV2ValuesWriteOperationsPerSecond: {}
 
-class_relationships:
- - PillarAxiomDevice 1:MC AxiomPilot
- - PillarAxiomDevice 1:MC AxiomBrick
- - PillarAxiomDevice 1:MC AxiomLun
- - PillarAxiomDevice 1:MC AxiomVolumeGroup
- - PillarAxiomDevice 1:MC AxiomFCPort
- - AxiomBrick 1:MC AxiomDisk 
+        graphs:
+          Average Latency:
+            units: Milliseconds
+            graphpoints:
+              pLunStatisticsV2ValuesAverageReadResponsTimeInMiliseconds:
+                dpName: pLunStatisticsV2ValuesAverageReadResponsTimeInMiliseconds_pLunStatisticsV2ValuesAverageReadResponsTimeInMiliseconds
+                legend: Read
+              pLunStatisticsV2ValuesAverageWriteResponsTimeInMiliseconds:
+                dpName: pLunStatisticsV2ValuesAverageWriteResponsTimeInMiliseconds_pLunStatisticsV2ValuesAverageWriteResponsTimeInMiliseconds
+                legend: Write
+          Average Operation Size:
+            units: Bytes
+            graphpoints:
+              pLunStatisticsV2ValuesAverageReadOperationSizeInBytes:
+                dpName: pLunStatisticsV2ValuesAverageReadOperationSizeInBytes_pLunStatisticsV2ValuesAverageReadOperationSizeInBytes
+                legend: Read
+              pLunStatisticsV2ValuesAverageWriteOperationSizeInBytes:
+                dpName: pLunStatisticsV2ValuesAverageWriteOperationSizeInBytes_pLunStatisticsV2ValuesAverageWriteOperationSizeInBytes
+                legend: Write
+          Throughput: 
+            units: bps
+            graphpoints:
+              pLunStatisticsV2ValuesReadBytesPerSecond:
+                dpName: pLunStatisticsV2ValuesReadBytesPerSecond_pLunStatisticsV2ValuesReadBytesPerSecond
+                legend: Read
+              pLunStatisticsV2ValuesWriteBytesPerSecond:
+                dpName: pLunStatisticsV2ValuesWriteBytesPerSecond_pLunStatisticsV2ValuesWriteBytesPerSecond
+                legend: Write
+          Operations: 
+            units: IOPS 
+            graphpoints:
+              pLunStatisticsV2ValuesReadOperationsPerSecond:
+                dpName: pLunStatisticsV2ValuesReadOperationsPerSecond_pLunStatisticsV2ValuesReadOperationsPerSecond
+                legend: Read
+              pLunStatisticsV2ValuesWriteOperationsPerSecond:
+                dpName: pLunStatisticsV2ValuesWriteOperationsPerSecond_pLunStatisticsV2ValuesWriteOperationsPerSecond
+                legend: Write
