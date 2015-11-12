@@ -7,6 +7,7 @@ classes:
   PillarAxiomDevice:
     base: [zenpacklib.Device]
     label: Axiom
+    icon: pillar.png
     properties:
        totalcapacity:
          label: Total Capacitiy
@@ -44,12 +45,16 @@ classes:
     properties:
       brickserial:
         label: Serial
+        label_width: 120
       brickstatus:
         label: Status
+        order: 1
       brickfrustatus:
         label:  FRU Status
+        order: 2
       bricktempstatus:
         label: Temp Status
+        order: 3
 
   AxiomDisk:
     label: Disk
@@ -57,39 +62,56 @@ classes:
     properties:
       diskstatus:
         label: Status
+        order: 1
       diskmodel:
         label: Model
+        order: 5
       diskserial:
         label: Serial
+        order: 6
       diskfirmware:
         label: Firmware
+        order: 7
       diskslot:
         label: Slot
+        order: 3
       diskspare:
         label: Spare
+        order: 4
       diskcapacity:
-        label: Capacity
+        label: Capacity (GB)
+        order: 2
 
   AxiomLun:
     label: LUN
     order: 50
     properties: 
       lunsize:
-        label: Size
+        label: Size (GB)
+        order: 5
       lunid:
         label: ID
+        order: 4
+        label_width: 120
       lunvolgroup:
         label: Volume Group
+        order: 2
       lundomain:
         label: Domain
+        order: 1
       lunprofile:
         label: Profile
+        order: 6
+        label_width: 140
       lunredundancy:
         label: Redundancy
+        order: 8
       lunpriority:
         label: Priority
+        order: 7
       lunstatus:
         label: Status
+        order: 3
 
   AxiomVolumeGroup:
     label: Volume Group
@@ -97,16 +119,20 @@ classes:
     properties:
       vgallocatedcapacity:
         label: Allocated Capacity
-        label_width: 120
+        label_width: 125
+        order: 1
       vgusedcapacity:
         label: Used Capacity
-        label_width: 120
+        label_width: 125
+        order: 2
       vgphysicalallocatedcapacity:
         label: Physical Allocated Capacity
-        label_width: 120
+        label_width: 125
+        order: 3
       vgphysicalusedcapacity:
         label: Physical Used Capacity
-        label_width: 120
+        label_width: 125
+        order: 4
 
   AxiomFCPort:
     label: FC Port
@@ -119,9 +145,10 @@ classes:
       fcportstatus:
         label: Status
       fcportspeed:
-        label: Speed
+        label: Speed (Gbps)
       fcportwwn:
         label: WWN
+        label_width: 120
 
 device_classes:
   /Storage/Pillar:

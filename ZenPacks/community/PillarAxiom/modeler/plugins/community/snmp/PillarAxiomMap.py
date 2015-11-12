@@ -238,6 +238,10 @@ class PillarAxiomMap(SnmpPlugin):
             if not name:
                 log.warn('Skipping lun with no name')
                 continue
+            
+            lunvolumegroup = row.get('cLunInformationVolumeGroupIdentityFqn')[1:]
+            if not lunvolumegroup:
+                lunvolumegroup = 'None'
 
             lunmap.append(ObjectMap({
                 'id': self.prepId(name),
@@ -245,7 +249,7 @@ class PillarAxiomMap(SnmpPlugin):
                 'snmpindex': snmpindex.strip('.'),
                 'lunsize': "{:,}".format(row.get('cLunInformationPhysicalAllocatedCapacity')),
                 'lunid': row.get('cLunInformationLuid'),
-                'lunvolgroup': row.get('cLunInformationVolumeGroupIdentityFqn')[1:],
+                'lunvolgroup': lunvolumegroup,
                 'lundomain': row.get('cLunInformationStorageDomainIdentityFqn')[1:],
                 'lunprofile': row.get('cLunInformationProfileIdentityFqn')[1:],
                 'lunredundancy': row.get('cLunInformationQosInformationRedundancy'),
