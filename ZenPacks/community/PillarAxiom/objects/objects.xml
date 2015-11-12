@@ -1,7 +1,14 @@
 <?xml version="1.0"?>
 <objects>
-<!-- ('', 'zport', 'dmd', 'Manufacturers', 'Pillar Data Systems', 'products', 'axiom-v2') -->
-<object id='/zport/dmd/Manufacturers/Pillar Data Systems/products/axiom-v2' module='Products.ZenModel.HardwareClass' class='HardwareClass'>
+<!-- ('', 'zport', 'dmd', 'Manufacturers', 'Pillar Data Systems') -->
+<object id='/zport/dmd/Manufacturers/Pillar Data Systems' module='Products.ZenModel.Manufacturer' class='Manufacturer'>
+<property type="string" id="zip" mode="w" >
+</property>
+<property type="lines" id="regexes" mode="w" >
+()
+</property>
+<tomanycont id='products'>
+<object id='axiom-v2' module='Products.ZenModel.HardwareClass' class='HardwareClass'>
 <property type="string" id="name" mode="w" >
 axiom-v2
 </property>
@@ -11,6 +18,8 @@ axiom-v2
 <property type="boolean" id="isOS" mode="w" >
 False
 </property>
+</object>
+</tomanycont>
 </object>
 <!-- ('', 'zport', 'dmd', 'Mibs', 'mibs', 'PILLAR-AXIOM-V2-MIB') -->
 <object id='/zport/dmd/Mibs/mibs/PILLAR-AXIOM-V2-MIB' module='Products.ZenModel.MibModule' class='MibModule'>
