@@ -22,10 +22,10 @@ class PillarAxiomMap(SnmpPlugin):
 
         GetTableMap(
             'sBrickInformationTable', '.1.3.6.1.4.1.15548.2.2.2.1.1', {
-                '.5':'sBrickInformationName', 
-                '.6':'sBrickInformationSerialNumber', 
-                '.7':'sBrickInformationOverallBrickStatus', 
-                '.8':'sBrickInformationBrickFruStatusRollup', 
+                '.5':'sBrickInformationName',
+                '.6':'sBrickInformationSerialNumber',
+                '.7':'sBrickInformationOverallBrickStatus',
+                '.8':'sBrickInformationBrickFruStatusRollup',
                 '.9':'sBrickInformationTemperateStatusRollup',
                 }
             ),
@@ -45,7 +45,7 @@ class PillarAxiomMap(SnmpPlugin):
         GetTableMap(
             'cLunInformationTable', '.1.3.6.1.4.1.15548.2.1.2.2.2.1.1.1', {
                 '.5': 'cLunInformationPhysicalAllocatedCapacity',
-                '.15': 'cLunInformationLuid',              
+                '.15': 'cLunInformationLuid',
                 '.16': 'cLunInformationName',
                 '.20': 'cLunInformationVolumeGroupIdentityFqn',
                 '.24': 'cLunInformationStorageDomainIdentityFqn',
@@ -103,7 +103,7 @@ class PillarAxiomMap(SnmpPlugin):
         fcportmap = []
 
 	bricknames = []
-        volumegroupnames = []      
+        volumegroupnames = []
 
         getdata, tabledata = results
 
@@ -114,8 +114,8 @@ class PillarAxiomMap(SnmpPlugin):
         volumegrouptable = tabledata.get('cVolumeGroupTable', {})
         pfcporttable = tabledata.get('pSanFcPortStatisticsV2Table', {})
         sfcporttable = tabledata.get('sSlammerInformationControlUnitNIMFibreChannelPortTable', {})
- 
-        # Axiom Device 
+
+        # Axiom Device
 
         total = getdata.get('totalcapacity')
         used = getdata.get('usedcapacity')
@@ -130,7 +130,7 @@ class PillarAxiomMap(SnmpPlugin):
                 'usedcapacity': self.capformat(used) + ' (' + str(usedpercent) + '%)',
                 'freecapacity': self.capformat(free) + ' (' + str(100 - usedpercent) + '%)',
             }))
- 
+
 	# Pilot Component
         for snmpindex, row in pilottable.items():
             name = row.get('sPilotInformationControlUnitPilotIdentity')
@@ -178,14 +178,14 @@ class PillarAxiomMap(SnmpPlugin):
             relname = 'axiomBricks',
             modname = 'ZenPacks.community.PillarAxiom.AxiomBrick',
             objmaps = brickmap))
-        
+
         # Disk Component
 
         for brick in bricknames:
             diskmap = []
             for snmpindex, row in disktable.items():
                 # do check for no data?
-                name = snmpindex.strip('.')            
+                name = snmpindex.strip('.')
                 diskbrick = bricknames[int(name.split('.')[0])-1]
 
                 if brick == diskbrick:
@@ -201,20 +201,20 @@ class PillarAxiomMap(SnmpPlugin):
                     'diskspare': row.get('sBrickInformationBrickNodeDiskDriveSpare'),
                     'diskcapacity': row.get('sBrickInformationBrickNodeDiskDriveCapacity'),
                     }))
-            
+
             maps.append(RelationshipMap(
                 compname= 'axiomBricks/%s' % brick,
                 relname = 'axiomDisks',
                 modname = 'ZenPacks.community.PillarAxiom.AxiomDisk',
                 objmaps = diskmap))
 
-        # Volume Group Component 
+        # Volume Group Component
 
         for snmpindex, row in volumegrouptable.items():
             name = row.get('cVolumeGroupDetailsVolumeGroupName')
             if not name:
                 name = "root"
- 
+
             volumegroupnames.append(name)
             volumegroupmap.append(ObjectMap({
                 'id': self.prepId(name),
@@ -236,14 +236,14 @@ class PillarAxiomMap(SnmpPlugin):
 
         # LUN Component
 
-        for volumegroup in volumegroupnames: 
+        for volumegroup in volumegroupnames:
             lunmap = []
             for snmpindex, row in luntable.items():
                 name = row.get('cLunInformationName')
                 if not name:
                     log.warn('Skipping lun with no name')
                     continue
-            
+
                 lunvolumegroup = row.get('cLunInformationVolumeGroupIdentityFqn')[1:]
                 if not lunvolumegroup:
                     lunvolumegroup = 'root'
