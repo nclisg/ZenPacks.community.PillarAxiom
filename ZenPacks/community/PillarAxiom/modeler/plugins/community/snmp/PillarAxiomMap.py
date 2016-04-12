@@ -57,7 +57,7 @@ class PillarAxiomMap(SnmpPlugin):
             ),
 
        GetTableMap(
-           'cVolumeGroupTable', '.1.3.6.1.4.1.15548.2.1.2.4.1.1', {
+            'cVolumeGroupTable', '.1.3.6.1.4.1.15548.2.1.2.4.1.1', {
                '.4': 'cVolumeGroupDetailsVolumeGroupName',
                '.8': 'cVolumeGroupDetailsAllocatedCapacity',
                '.9': 'cVolumeGroupDetailsUsedCapacity',
