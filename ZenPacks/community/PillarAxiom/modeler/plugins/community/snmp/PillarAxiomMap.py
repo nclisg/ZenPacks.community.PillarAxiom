@@ -1,9 +1,10 @@
-from Products.DataCollector.plugins.CollectorPlugin import (SnmpPlugin, GetTableMap, GetMap)
-from Products.DataCollector.plugins.DataMaps import ObjectMap, RelationshipMap
-
 """PillarAxiomMap
 Gathers component information from Pillar Axiom storage systems
 """
+
+from Products.DataCollector.plugins.CollectorPlugin import (SnmpPlugin, GetTableMap, GetMap)
+from Products.DataCollector.plugins.DataMaps import ObjectMap, RelationshipMap
+
 
 class PillarAxiomMap(SnmpPlugin):
 
