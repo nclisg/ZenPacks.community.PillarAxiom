@@ -92,7 +92,7 @@ class PillarAxiomMap(SnmpPlugin):
             }
     )
 
-
+    @classmethod
     def capformat(self, value):
         return "{:,}".format(int(value)) + " GB"
 
