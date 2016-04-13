@@ -16,7 +16,6 @@ class PillarAxiomMap(SnmpPlugin):
                 '.10': 'sPilotInformationControlUnitOSVersion',
                 '.11': 'sPilotInformationControlUnitPacmanVersion',
                 '.12': 'sPilotInformationControlUnitHardwareComponentStatus',
-
                 }
             ),
 
