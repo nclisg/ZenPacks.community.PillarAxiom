@@ -1,7 +1,7 @@
 from Products.DataCollector.plugins.CollectorPlugin import (SnmpPlugin, GetTableMap, GetMap)
-from Products.DataCollector.plugins.DataMaps import ObjectMap, RelationshipMap, MultiArgs
+from Products.DataCollector.plugins.DataMaps import ObjectMap, RelationshipMap
 
-__doc__ = """PillarAxiomMap
+"""PillarAxiomMap
 Gathers component information from Pillar Axiom storage systems
 """
 
