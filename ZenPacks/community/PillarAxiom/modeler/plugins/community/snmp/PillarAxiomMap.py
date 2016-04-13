@@ -125,7 +125,7 @@ class PillarAxiomMap(SnmpPlugin):
         usedpercent = int(float(used) / float(total) * 100)
 
         maps.append(ObjectMap(
-            modname = 'ZenPacks.community.PillarAxiom.PillarAxiomDevice',
+            modname='ZenPacks.community.PillarAxiom.PillarAxiomDevice',
             data = {
                 'setHWSerialNumber': getdata.get('setHWSerialNumber'),
                 'totalcapacity': self.capformat(total),
@@ -154,9 +154,9 @@ class PillarAxiomMap(SnmpPlugin):
 
 
         maps.append(RelationshipMap(
-            relname = 'axiomPilots',
-            modname = 'ZenPacks.community.PillarAxiom.AxiomPilot',
-            objmaps = pilotmap))
+            relname='axiomPilots',
+            modname='ZenPacks.community.PillarAxiom.AxiomPilot',
+            objmaps=pilotmap))
 
        # Brick Component
 
@@ -177,9 +177,9 @@ class PillarAxiomMap(SnmpPlugin):
                 }))
 
         maps.append(RelationshipMap(
-            relname = 'axiomBricks',
-            modname = 'ZenPacks.community.PillarAxiom.AxiomBrick',
-            objmaps = brickmap))
+            relname='axiomBricks',
+            modname='ZenPacks.community.PillarAxiom.AxiomBrick',
+            objmaps=brickmap))
 
         # Disk Component
 
@@ -205,10 +205,10 @@ class PillarAxiomMap(SnmpPlugin):
                     }))
 
             maps.append(RelationshipMap(
-                compname= 'axiomBricks/%s' % brick,
-                relname = 'axiomDisks',
-                modname = 'ZenPacks.community.PillarAxiom.AxiomDisk',
-                objmaps = diskmap))
+                compname='axiomBricks/%s' % brick,
+                relname='axiomDisks',
+                modname='ZenPacks.community.PillarAxiom.AxiomDisk',
+                objmaps=diskmap))
 
         # Volume Group Component
 
@@ -231,9 +231,9 @@ class PillarAxiomMap(SnmpPlugin):
         volumegroupnames.append('None')
 
         maps.append(RelationshipMap(
-            relname = 'axiomVolumeGroups',
-            modname = 'ZenPacks.community.PillarAxiom.AxiomVolumeGroup',
-            objmaps = volumegroupmap))
+            relname='axiomVolumeGroups',
+            modname='ZenPacks.community.PillarAxiom.AxiomVolumeGroup',
+            objmaps=volumegroupmap))
 
 
         # LUN Component
@@ -265,10 +265,10 @@ class PillarAxiomMap(SnmpPlugin):
                     }))
 
             maps.append(RelationshipMap(
-                compname = 'axiomVolumeGroups/%s' % volumegroup,
-                relname = 'axiomLuns',
-                modname = 'ZenPacks.community.PillarAxiom.AxiomLun',
-                objmaps = lunmap))
+                compname='axiomVolumeGroups/%s' % volumegroup,
+                relname='axiomLuns',
+                modname='ZenPacks.community.PillarAxiom.AxiomLun',
+                objmaps=lunmap))
 
         # FC Port Component
 
@@ -291,9 +291,9 @@ class PillarAxiomMap(SnmpPlugin):
                 }))
 
         maps.append(RelationshipMap(
-            relname = 'axiomFCPorts',
-            modname = 'ZenPacks.community.PillarAxiom.AxiomFCPort',
-            objmaps = fcportmap))
+            relname='axiomFCPorts',
+            modname='ZenPacks.community.PillarAxiom.AxiomFCPort',
+            objmaps=fcportmap))
 
 
         return maps
