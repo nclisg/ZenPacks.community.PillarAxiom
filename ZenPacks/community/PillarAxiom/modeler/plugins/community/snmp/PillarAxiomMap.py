@@ -126,7 +126,7 @@ class PillarAxiomMap(SnmpPlugin):
 
         maps.append(ObjectMap(
             modname='ZenPacks.community.PillarAxiom.PillarAxiomDevice',
-            data = {
+            data={
                 'setHWSerialNumber': getdata.get('setHWSerialNumber'),
                 'totalcapacity': self.capformat(total),
                 'usedcapacity': self.capformat(used) + ' (' + str(usedpercent) + '%)',
@@ -192,16 +192,16 @@ class PillarAxiomMap(SnmpPlugin):
 
                 if brick == diskbrick:
                     diskmap.append(ObjectMap({
-                    'id': self.prepId(name),
-                    'title': name,
-                    'snmpindex': snmpindex.strip('.'),
-                    'diskstatus': row.get('sBrickInformationBrickNodeDiskDriveStatus'),
-                    'diskmodel': row.get('sBrickInformationBrickNodeDiskDriveModel'),
-                    'diskserial': row.get('sBrickInformationBrickNodeDiskDriveSerialNumber'),
-                    'diskfirmware': row.get('sBrickInformationBrickNodeDiskDriveFirmwareVersion'),
-                    'diskslot': row.get('sBrickInformationBrickNodeDiskDriveDriveSlot'),
-                    'diskspare': row.get('sBrickInformationBrickNodeDiskDriveSpare'),
-                    'diskcapacity': row.get('sBrickInformationBrickNodeDiskDriveCapacity'),
+                        'id': self.prepId(name),
+                        'title': name,
+                        'snmpindex': snmpindex.strip('.'),
+                        'diskstatus': row.get('sBrickInformationBrickNodeDiskDriveStatus'),
+                        'diskmodel': row.get('sBrickInformationBrickNodeDiskDriveModel'),
+                        'diskserial': row.get('sBrickInformationBrickNodeDiskDriveSerialNumber'),
+                        'diskfirmware': row.get('sBrickInformationBrickNodeDiskDriveFirmwareVersion'),
+                        'diskslot': row.get('sBrickInformationBrickNodeDiskDriveDriveSlot'),
+                        'diskspare': row.get('sBrickInformationBrickNodeDiskDriveSpare'),
+                        'diskcapacity': row.get('sBrickInformationBrickNodeDiskDriveCapacity'),
                     }))
 
             maps.append(RelationshipMap(
