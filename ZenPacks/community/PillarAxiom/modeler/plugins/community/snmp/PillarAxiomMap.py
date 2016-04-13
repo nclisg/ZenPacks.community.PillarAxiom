@@ -83,7 +83,7 @@ class PillarAxiomMap(SnmpPlugin):
         )
 
     snmpGetMap = GetMap(
-         {
+        {
             '.1.3.6.1.4.1.15548.2.1.1.4.1.1.14.1': 'setHWSerialNumber',
             '.1.3.6.1.4.1.15548.2.1.2.3.1.1.2.1': 'totalcapacity',
             '.1.3.6.1.4.1.15548.2.1.2.3.1.1.3.1': 'usedcapacity',
