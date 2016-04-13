@@ -88,7 +88,7 @@ class PillarAxiomMap(SnmpPlugin):
             '.1.3.6.1.4.1.15548.2.1.2.3.1.1.2.1': 'totalcapacity',
             '.1.3.6.1.4.1.15548.2.1.2.3.1.1.3.1': 'usedcapacity',
             '.1.3.6.1.4.1.15548.2.1.2.3.1.1.4.1': 'freecapacity',
-	}
+            }
     )
 
 
@@ -104,7 +104,7 @@ class PillarAxiomMap(SnmpPlugin):
         volumegroupmap = []
         fcportmap = []
 
-	bricknames = []
+        bricknames = []
         volumegroupnames = []
 
         getdata, tabledata = results
